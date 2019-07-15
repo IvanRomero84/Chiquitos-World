@@ -1,0 +1,39 @@
+body{
+  background-image: url("img/wall2.jpg");
+  background-size: 80em;
+  background-position-x: center;
+  background-position: center;
+  margin-bottom: 25em;
+
+}
+body button {
+  font-size: 20px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color:rgb(255, 255, 255);
+  background-color: rgb(26, 138, 182);
+  padding: 10px 20px;
+  border: 2px inset white;
+  box-shadow: 0;
+  border-radius: 10%;
+  margin-bottom: 20px;
+  margin-left: 5.2em;
+  margin-top: 20px;
+}
+#logo{
+    border: 2px solid white;
+    border-radius: 100%;
+    margin-left: 5em;
+    margin-top: 5em;
+}
+#game-board {
+    display: flex;
+    justify-content: left;
+}
+#box{
+    display: flex;
+}
+.game-intro{ 
+    display: flex;
+    justify-content: left;
+
+}
