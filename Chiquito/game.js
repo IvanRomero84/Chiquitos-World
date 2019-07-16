@@ -25,9 +25,9 @@ window.onload = function () {
         init: function () {
             this.canvas = document.getElementById("canvas")
             this.ctx = this.canvas.getContext("2d")
-            this.width = window.innerWidth * 0.4
+            this.width = window.innerWidth * 0.6
             this.height = window.innerHeight * 0.98
-            this.canvas.width = this.width * 1.2
+            this.canvas.width = this.width
             this.canvas.height = this.height
             this.start()
             audioElement.play()
@@ -44,7 +44,6 @@ window.onload = function () {
 
                 this.clearObstacles()
                 this.isCollision()
-                this.upCollision()
             }, 1000 / this.fps)
 
         },
@@ -53,6 +52,7 @@ window.onload = function () {
             this.player = new Player(this.ctx, this.canvas.width, this.canvas.height, this.keys)
 
             this.obstacles = []
+            this.obj = this.obstacles[0]
 
         },
         drawAll: function () {
@@ -86,37 +86,26 @@ window.onload = function () {
             })
         },
         isCollision: function () {           // funcion para comprobar colisiones
+            let plataforma = this.obstacles.find(function (obs) {
+                return this.player.posY + this.player.height < obs.posY
+                    && this.player.posX + this.player.width < obs.posX
+                    && this.player.posX > obs.posX + obs.width
+                    && this.player.posY < obs.posY + obs.height
+                    && this.player.velY > 0
 
-            this.obstacles.some(obs => {
-
-                if (this.player.posX + this.player.width >= obs.posX
-                    && this.player.posX <= obs.posX + obs.width
-                    && this.player.posY >= obs.posY + obs.height) {
-
-                }
-
-            })
+            }.bind(this))
+            if (plataforma) {
+                this.player.obj = plataforma
+                this.player.posY0 = plataforma.posY
+                this.player.posY = this.player.posY0
+            } else {
+                this.player.posY0 = this.canvas.height
+            }
 
         },
-        upCollision: function () {
-            this.obstacles.find(obs => {
+    }
 
-                if (this.player.posY + this.height <= obs.posY
-                    && this.player.posX + this.player.width >= obs.posX
-                    && this.player.posX <= obs.posX + obs.width
-                    && this.player.posY >= obs.posY + obs.height) {
-
-                }
-
-            })
-
-
-        }
-
-
-
-
-    };
+};
 
 
 
@@ -126,6 +115,3 @@ window.onload = function () {
 
 
 
-
-
-}
