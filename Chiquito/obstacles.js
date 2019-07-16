@@ -1,16 +1,14 @@
 class Obstacle {
-    constructor(ctx, canvasH, canvasW) {
+    constructor(src, ctx, canvasH, canvasW, posX, posY) {
         this.ctx = ctx;
         this.width = Math.floor(Math.random() * 50 + 100);
         this.height = 20;
         this.canvasW = canvasW
         this.velY = 1;
-        this.posX = Math.floor(Math.random() * this.canvasW - 100);
-
-        this.posY = 0 - this.height;
-
+        this.posX = posX;
+        this.posY = posY;
         this.image = new Image()
-        this.image.src = "img/LandPiece_LightGreen.png"
+        this.image.src = src
 
     }
 
