@@ -1,5 +1,3 @@
-var audioElementJump = document.createElement('audio')
-audioElementJump.setAttribute('src', 'mp3/grito.mp3')
 
 class Player {
     constructor(ctx, w, h, keys, obs) {
@@ -28,7 +26,6 @@ class Player {
         this.canTop = true
 
         this.setListeners()
-
     }
 
     draw(framesCounter) {
@@ -64,7 +61,7 @@ class Player {
         }
 
         if (this.keys.RIGHT_KEY.down && this.posX <= this.gameWidth) {
-            this.posX += 15
+            this.posX += 10
             this.velX += 1
         }
         // if (this.keys.TOP_KEY.down && this.posY >= this.posY) {
@@ -72,7 +69,7 @@ class Player {
         //     this.velY += 1
         // }
         if (this.keys.LEFT_KEY.down && this.posX >= -this.gameWidth) {
-            this.posX -= 15
+            this.posX -= 10
             this.velX -= 1
         }
 

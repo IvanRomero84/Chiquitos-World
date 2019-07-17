@@ -11,6 +11,7 @@ window.onload = function () {
         width: undefined,
         height: undefined,
         obstacles: [],
+        enemy: [],
         framesCounter: 0,
         fps: 60,
         keys: {
@@ -43,8 +44,13 @@ window.onload = function () {
                 this.drawAll()
                 this.moveAll()
                 this.generateObstacles()
+                this.gnerateEnemys()
                 this.clearObstacles()
+                this.clearEnemy()
                 this.isCollision()
+                if (this.player.posY > this.canvas.height - 5) this.gameOver()
+                // if (this.score > 10) this.obstacles.up()
+
             }, 1000 / this.fps)
 
         },
@@ -56,6 +62,7 @@ window.onload = function () {
             this.scoreboard.init(this.ctx)
             this.score = 0
             this.obstacles = []
+            this.enemy = []
             this.obstacles.push(this.firstObs)
             this.obj = this.obstacles[0]
         },
@@ -63,6 +70,7 @@ window.onload = function () {
             this.background.draw()
             this.player.draw(this.framesCounter)
             this.drawScore()
+            this.enemy.forEach(enemy => enemy.draw())
             this.obstacles[0].draw()
             //this.obstacles.forEach(obs => obs.draw())
             for (let i = 1; i < this.obstacles.length; i++) {
@@ -71,6 +79,7 @@ window.onload = function () {
         },
 
         moveAll: function () {
+            this.enemy.forEach(enemy => enemy.move())
             for (let i = 1; i < this.obstacles.length; i++) {
                 this.obstacles[i].move()
             }
@@ -82,21 +91,35 @@ window.onload = function () {
         clear: function () {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         },
-
+        //-----------------------------------------------------------------
         generateObstacles: function () {
             if (this.framesCounter % 140 == 0) {
-                // console.log(this.obstacles)
-                this.obstacles.push(new Obstacle("img/LandPiece_LightGreen.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height)) //pusheamos nuevos obstaculos
+                console.log(this.obstacles)
+                this.obstacles.push(new Obstacle("img/LandPiece_LightGreen.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height))
             }
         },
-
+        gnerateEnemys: function () {
+            if (this.framesCounter % 140 == 0) {
+                console.log(this.enemy)
+                this.enemy.push(new Enemy("img/Cuñao.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.heigh))
+            }
+        },
+        //-----------------------------------------------------------------
         clearObstacles: function () {
             this.obstacles.forEach((obs, idx) => {
-                if (obs.posX <= 0) {
+                if (obs.posY > this.canvas.height - 5) {
                     this.obstacles.splice(idx, 1)
                 }
             })
         },
+        clearEnemy: function () {
+            this.enemy.forEach((enemy, idx) => {
+                if (enemy.posY > this.canvas.height - 5) {
+                    this.enemy.splice(idx, 1)
+                }
+            })
+        },
+        //-----------------------------------------------------------------
         isCollision: function () {
             let plataforma = this.obstacles.find(function (obs) {
                 return this.player.posY + this.player.height >= obs.posY
@@ -104,7 +127,6 @@ window.onload = function () {
                     && this.player.posX < obs.posX + obs.width
                     && this.player.posY < obs.posY + obs.height
                     && this.player.velY > 0
-
             }.bind(this))
 
             if (plataforma) {
@@ -114,8 +136,7 @@ window.onload = function () {
 
                 this.player.posY = this.player.posY0
                 // console.log(this.player.posY, this.player.posY0)
-            }
-            else {
+            } else {
                 this.player.posY0 = this.canvas.height
             }
 
@@ -123,13 +144,21 @@ window.onload = function () {
         drawScore: function () {
             this.scoreboard.update(this.score)
         },
+
         gameOver: function () {
+            this.ctx.fillText("Game Over", this.canvas.height / 2, this.canvas.width / 2)
+            this.ctx.fillText(`Puntos: ${this.score}`, this.canvas.height / 2 + 20, 300)
+            this.ctx.fillStyle = "red"
+            this.ctx.font = "90px impact"
+            this.ctx.textAlign = "center"
+            document.getElementById("grito").play()
             clearInterval(this.interval)
-        }
-
+        },
     }
-
 };
+
+
+
 
 
 
