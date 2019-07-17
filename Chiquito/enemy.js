@@ -16,6 +16,7 @@ class Enemy {
     }
     move() {
         this.posY += this.velY
+        this.posX += 1
     }
 
 

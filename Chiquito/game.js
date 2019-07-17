@@ -33,6 +33,8 @@ window.onload = function () {
             this.canvas.height = this.height
             this.start()
             audioElement.play()
+            document.getElementById("val").play()
+
         },
         start: function () {
             this.reset()
@@ -48,7 +50,11 @@ window.onload = function () {
                 this.clearObstacles()
                 this.clearEnemy()
                 this.isCollision()
-                if (this.player.posY > this.canvas.height - 5) this.gameOver()
+                this.isCollisionTwo()
+                if (this.player.posY > this.canvas.height - 5) {
+                    document.getElementById("grito").play()
+                    this.gameOver()
+                }
                 // if (this.score > 10) this.obstacles.up()
 
             }, 1000 / this.fps)
@@ -94,14 +100,14 @@ window.onload = function () {
         //-----------------------------------------------------------------
         generateObstacles: function () {
             if (this.framesCounter % 140 == 0) {
-                console.log(this.obstacles)
+
                 this.obstacles.push(new Obstacle("img/LandPiece_LightGreen.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height))
             }
         },
         gnerateEnemys: function () {
             if (this.framesCounter % 300 == 0) {
-                console.log(this.enemy)
                 this.enemy.push(new Enemy("img/—Pngtree—extreme sport parachute athlete stimulate_3816413.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height))
+                document.getElementById("malo").play()
             }
         },
         //-----------------------------------------------------------------
@@ -144,6 +150,18 @@ window.onload = function () {
         drawScore: function () {
             this.scoreboard.update(this.score)
         },
+        isCollisionTwo: function () {
+            this.enemy.forEach(enemy => {
+                if ((this.player.posX + this.player.width) > (enemy.posX + 100)
+                    && (this.player.posY + this.player.height) > (enemy.posY - 100)
+                    && this.player.posX < (enemy.posX + enemy.width - 100)
+                    && this.player.posY < (enemy.posY + enemy.height - 100)) {
+                    document.getElementById("hdp").play()
+                    this.gameOver()
+                }
+            })
+
+        },
 
         gameOver: function () {
             this.ctx.fillText("Game Over", this.canvas.height / 2, this.canvas.width / 2)
@@ -151,7 +169,6 @@ window.onload = function () {
             this.ctx.fillStyle = "red"
             this.ctx.font = "90px impact"
             this.ctx.textAlign = "center"
-            document.getElementById("grito").play()
             clearInterval(this.interval)
         },
     }
