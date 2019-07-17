@@ -68,7 +68,6 @@ window.onload = function () {
         },
         drawAll: function () {
             this.background.draw()
-            this.player.draw(this.framesCounter)
             this.drawScore()
             this.enemy.forEach(enemy => enemy.draw())
             this.obstacles[0].draw()
@@ -76,6 +75,7 @@ window.onload = function () {
             for (let i = 1; i < this.obstacles.length; i++) {
                 this.obstacles[i].draw()
             }
+            this.player.draw(this.framesCounter)
         },
 
         moveAll: function () {
@@ -99,9 +99,9 @@ window.onload = function () {
             }
         },
         gnerateEnemys: function () {
-            if (this.framesCounter % 140 == 0) {
+            if (this.framesCounter % 300 == 0) {
                 console.log(this.enemy)
-                this.enemy.push(new Enemy("img/Cuñao.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.heigh))
+                this.enemy.push(new Enemy("img/—Pngtree—extreme sport parachute athlete stimulate_3816413.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height))
             }
         },
         //-----------------------------------------------------------------
