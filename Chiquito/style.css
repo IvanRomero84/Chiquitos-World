@@ -1,6 +1,7 @@
 body{
   background-image: url("img/wall2.jpg");
-  background-size: 80em;
+  background-size: cover;
+  background-repeat: no-repeat;
   background-position-x: center;
   background-position: center;
   margin-bottom: 25em;

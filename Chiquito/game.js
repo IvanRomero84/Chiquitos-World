@@ -23,7 +23,8 @@ window.onload = function () {
         },
         plataforma: undefined,
         score: undefined,
-
+        item: [],
+        aspirina: [],
 
         init: function () {
             this.canvas = document.getElementById("canvas")
@@ -49,12 +50,18 @@ window.onload = function () {
                 this.generateObstacles()
                 this.gnerateEnemys()
                 this.gnerateEnemysTwo()
+                this.gnerateItems()
+                this.gnerateAspirina()
                 this.clearObstacles()
                 this.clearEnemy()
                 this.clearEnemyTwo()
+                this.clearItem()
+                this.clearAspirina()
                 this.isCollision()
                 this.isCollisionTwo()
+                this.isCollisionThree()
                 this.isCollisionFour()
+                this.isCollisionFive()
                 // this.levelUp()
                 if (this.player.posY > this.canvas.height - 5) {
                     document.getElementById("grito").play()
@@ -76,6 +83,8 @@ window.onload = function () {
             this.obstacles = []
             this.enemy = []
             this.enemyTwo = []
+            this.item = []
+            this.aspirina = []
             this.obstacles.push(this.firstObs)
             this.obj = this.obstacles[0]
             this.supObsCero = setTimeout(() => {
@@ -87,6 +96,8 @@ window.onload = function () {
             this.drawScore()
             this.enemy.forEach(enemy => enemy.draw())
             this.enemyTwo.forEach(enemyTwo => enemyTwo.draw())
+            this.item.forEach(item => item.draw())
+            this.aspirina.forEach(aspirina => aspirina.draw())
             this.obstacles[0].draw()
             for (let i = 1; i < this.obstacles.length; i++) {
                 this.obstacles[i].draw()
@@ -97,21 +108,20 @@ window.onload = function () {
         moveAll: function () {
             this.enemy.forEach(enemy => enemy.move())
             this.enemyTwo.forEach(enemyTwo => enemyTwo.move())
+            this.item.forEach(item => item.move())
+            this.aspirina.forEach(aspirina => aspirina.move())
             for (let i = 1; i < this.obstacles.length; i++) {
                 this.obstacles[i].move()
             }
             this.background.move()
             this.player.move()
-
         },
-
         clear: function () {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         },
         //-----------------------------------------------------------------
         generateObstacles: function () {
             if (this.framesCounter % 140 == 0) {
-
                 this.obstacles.push(new Obstacle("img/LandPiece_LightGreen.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height - 200))
             }
         },
@@ -125,6 +135,18 @@ window.onload = function () {
             if (this.framesCounter % 400 == 0) {
                 this.enemyTwo.push(new EnemyTwo("img/ninja1-200x227.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height - 200))
                 document.getElementById("omg").play()
+            }
+        },
+        gnerateItems: function () {
+            if (this.framesCounter % 350 == 0) {
+                this.item.push(new Item("img/kisspng-beer-icon-design-icon-beer-5a6a1851e1c1d3.5866716315169024819247.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height - 200))
+                //document.getElementById("omg").play()
+            }
+        },
+        gnerateAspirina: function () {
+            if (this.framesCounter % 500 == 0) {
+                this.aspirina.push(new Aspirina("img/59bf7f587a216d0b052f12d1.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height - 200))
+                //document.getElementById("omg").play()
             }
         },
         //-----------------------------------------------------------------
@@ -146,6 +168,20 @@ window.onload = function () {
             this.enemyTwo.forEach((enemyTwo, idx) => {
                 if (enemyTwo.posY > this.canvas.height - 5) {
                     this.enemyTwo.splice(idx, 1)
+                }
+            })
+        },
+        clearItem: function () {
+            this.item.forEach((item, idx) => {
+                if (item.posY > this.canvas.height - 5) {
+                    this.item.splice(idx, 1)
+                }
+            })
+        },
+        clearAspirina: function () {
+            this.aspirina.forEach((aspirina, idx) => {
+                if (aspirina.posY > this.canvas.height - 5) {
+                    this.aspirina.splice(idx, 1)
                 }
             })
         },
@@ -186,6 +222,20 @@ window.onload = function () {
             })
 
         },
+        isCollisionThree: function () {
+            this.item.forEach(item => {
+                if ((this.player.posX + this.player.width) > (item.posX)
+                    && (this.player.posY + this.player.height) > (item.posY)
+                    && this.player.posX < (item.posX + item.width)
+                    && this.player.posY < (item.posY + item.height)) {
+                    this.keys.LEFT_KEY.key = 39
+                    this.keys.RIGHT_KEY.key = 37
+                    document.getElementById("camarero").play()
+                    this.item.splice(0, 1)
+                }
+            })
+
+        },
         isCollisionFour: function () {
             this.enemyTwo.forEach(enemyTwo => {
                 if ((this.player.posX + this.player.width) > (enemyTwo.posX + 50)
@@ -194,6 +244,20 @@ window.onload = function () {
                     && this.player.posY < (enemyTwo.posY + enemyTwo.height - 50)) {
                     document.getElementById("hdp").play()
                     this.gameOver()
+                }
+            })
+
+        },
+        isCollisionFive: function () {
+            this.aspirina.forEach(aspirina => {
+                if ((this.player.posX + this.player.width) > (aspirina.posX)
+                    && (this.player.posY + this.player.height) > (aspirina.posY)
+                    && this.player.posX < (aspirina.posX + aspirina.width)
+                    && this.player.posY < (aspirina.posY + aspirina.height)) {
+                    this.keys.LEFT_KEY.key = 37
+                    this.keys.RIGHT_KEY.key = 39
+                    document.getElementById("cuidadin").play()
+                    this.aspirina.splice(0, 1)
                 }
             })
 

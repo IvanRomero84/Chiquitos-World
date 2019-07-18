@@ -42,7 +42,6 @@ class Player {
     }
 
     move() {
-
         if (this.keys.TOP_KEY.down && this.canTop) {
             this.posY -= 1;
             this.velY = - 10;
