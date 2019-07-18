@@ -12,6 +12,7 @@ window.onload = function () {
         height: undefined,
         obstacles: [],
         enemy: [],
+        enemyTwo: [],
         framesCounter: 0,
         fps: 60,
         keys: {
@@ -42,21 +43,25 @@ window.onload = function () {
                 this.framesCounter++
                 if (this.framesCounter > 1000) this.framesCounter = 0
                 if (this.framesCounter % 100 == 0) this.score++
-
                 this.clear()
                 this.drawAll()
                 this.moveAll()
                 this.generateObstacles()
                 this.gnerateEnemys()
+                this.gnerateEnemysTwo()
                 this.clearObstacles()
                 this.clearEnemy()
+                this.clearEnemyTwo()
                 this.isCollision()
                 this.isCollisionTwo()
+                this.isCollisionFour()
                 // this.levelUp()
                 if (this.player.posY > this.canvas.height - 5) {
                     document.getElementById("grito").play()
+                    document.getElementById("val").parentNode.removeChild(document.getElementById("val"))
                     this.gameOver()
                 }
+
 
             }, 1000 / this.fps)
 
@@ -70,6 +75,7 @@ window.onload = function () {
             this.score = 0
             this.obstacles = []
             this.enemy = []
+            this.enemyTwo = []
             this.obstacles.push(this.firstObs)
             this.obj = this.obstacles[0]
             this.supObsCero = setTimeout(() => {
@@ -80,8 +86,8 @@ window.onload = function () {
             this.background.draw()
             this.drawScore()
             this.enemy.forEach(enemy => enemy.draw())
+            this.enemyTwo.forEach(enemyTwo => enemyTwo.draw())
             this.obstacles[0].draw()
-            //this.obstacles.forEach(obs => obs.draw())
             for (let i = 1; i < this.obstacles.length; i++) {
                 this.obstacles[i].draw()
             }
@@ -90,12 +96,12 @@ window.onload = function () {
 
         moveAll: function () {
             this.enemy.forEach(enemy => enemy.move())
+            this.enemyTwo.forEach(enemyTwo => enemyTwo.move())
             for (let i = 1; i < this.obstacles.length; i++) {
                 this.obstacles[i].move()
             }
             this.background.move()
             this.player.move()
-            //this.obstacles[i].forEach(obs => obs.move())
 
         },
 
@@ -115,6 +121,12 @@ window.onload = function () {
                 document.getElementById("malo").play()
             }
         },
+        gnerateEnemysTwo: function () {
+            if (this.framesCounter % 400 == 0) {
+                this.enemyTwo.push(new EnemyTwo("img/ninja1-200x227.png", this.ctx, this.canvas.width, this.player.posY0, Math.floor(Math.random() * this.width - 100), this.player.height - 200))
+                document.getElementById("omg").play()
+            }
+        },
         //-----------------------------------------------------------------
         clearObstacles: function () {
             this.obstacles.forEach((obs, idx) => {
@@ -127,6 +139,13 @@ window.onload = function () {
             this.enemy.forEach((enemy, idx) => {
                 if (enemy.posY > this.canvas.height - 5) {
                     this.enemy.splice(idx, 1)
+                }
+            })
+        },
+        clearEnemyTwo: function () {
+            this.enemyTwo.forEach((enemyTwo, idx) => {
+                if (enemyTwo.posY > this.canvas.height - 5) {
+                    this.enemyTwo.splice(idx, 1)
                 }
             })
         },
@@ -161,6 +180,18 @@ window.onload = function () {
                     && (this.player.posY + this.player.height) > (enemy.posY)
                     && this.player.posX < (enemy.posX + enemy.width - 100)
                     && this.player.posY < (enemy.posY + enemy.height - 100)) {
+                    document.getElementById("hdp").play()
+                    this.gameOver()
+                }
+            })
+
+        },
+        isCollisionFour: function () {
+            this.enemyTwo.forEach(enemyTwo => {
+                if ((this.player.posX + this.player.width) > (enemyTwo.posX + 50)
+                    && (this.player.posY + this.player.height) > (enemyTwo.posY)
+                    && this.player.posX < (enemyTwo.posX + enemyTwo.width - 50)
+                    && this.player.posY < (enemyTwo.posY + enemyTwo.height - 50)) {
                     document.getElementById("hdp").play()
                     this.gameOver()
                 }
