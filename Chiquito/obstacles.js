@@ -19,6 +19,6 @@ class Obstacle {
         this.posY += this.velY
     }
     up() {
-        this.velY = 3
+        this.posY = this.velY + 2
     }
 }

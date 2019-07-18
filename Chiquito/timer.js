@@ -9,5 +9,8 @@ const ScoreBoard = {
     update: function (score) {
         this.ctx.fillStyle = "red";
         this.ctx.fillText(Math.floor(score), 50, 50);
+        this.ctx.strokeText(Math.floor(score), 50, 50)
+        this.ctx.strokeStyle = "black"
+
     }
 };

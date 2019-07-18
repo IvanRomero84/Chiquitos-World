@@ -25,7 +25,6 @@ class Player {
         this.keys = keys
         this.canTop = true
 
-        //this.bullets = []
         this.setListeners()
     }
 
@@ -73,9 +72,6 @@ class Player {
             this.posX -= 10
             this.velX -= 1
         }
-        // this.bullets.forEach(bullet => bullet.draw())      //El player dibuja las balas.
-
-
     }
 
     animate(framesCounter) {
@@ -85,9 +81,7 @@ class Player {
                 this.image.framesIndex = 0
             }
         }
-
     }
-
     setListeners() {
         document.onkeydown = (e) => {
             switch (e.keyCode) {
@@ -104,9 +98,6 @@ class Player {
                     this.keys.LEFT_KEY.down = true
 
                     break;
-                // case this.keys.A_KEY:
-                //     this.shoot()
-                //     break;
             }
         }
         document.onkeyup = (e) => {
@@ -123,16 +114,9 @@ class Player {
                     this.keys.LEFT_KEY.down = false
 
                     break;
-
             }
         }
     }
-
-    //shoot() {
-    //
-    //    this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.posY0, this.height))
-    //
-    //}
 
 
 }
