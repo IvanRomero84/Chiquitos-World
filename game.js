@@ -215,7 +215,7 @@ window.onload = function () {
                 if ((this.player.posX + this.player.width) > (enemy.posX + 100)
                     && (this.player.posY + this.player.height) > (enemy.posY)
                     && this.player.posX < (enemy.posX + enemy.width - 100)
-                    && this.player.posY < (enemy.posY + enemy.height + 50)) {
+                    && this.player.posY < (enemy.posY + enemy.height - 100)) {
                     document.getElementById("hdp").play()
                     this.gameOver()
                 }
